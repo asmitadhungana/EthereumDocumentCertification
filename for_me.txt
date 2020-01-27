@@ -1,0 +1,16 @@
+27th jan, 2019
+Developing an Ethereum Document Certification Contract
+https://medium.com/cryptronics/ethereum-development-guide-part-1-ad0c77c3683f
+notes: make the instance of the smart contract as:
+1. var contract_instance =  await contract_name.deployed();
+2. then, use that instance to write (make transaction) and read(call) functions in the smart contract.
+https://trufflesuite.com/docs/truffle/getting-started/interacting-with-your-contracts
+Notes: writing data to ethereum = transaction
+reading data = call
+TRANSACTIONS: fundamentally change the state of the network
+	write data to the lockchain
+	cost Ether , knows as "gas"
+	take time to process
+	when you execute a contract's function via a transaction, you cannot receive that fxn's return value cause the transxn isn't processed immediately. In general, fxns meant to e executed via a trxn will not return any value; they will return a trxn id instead.
+CALLS: Calls, on the other hand, are very different. Calls can be used to execute code on the network, though no data will be permanently changed. Calls are free to run, and their defining characteristic is that they read data. When you execute a contract function via a call you will receive the return value immediately.
+Note: vytes32 vs string

@@ -1,0 +1,1454 @@
+{
+  "contractName": "Notary",
+  "abi": [
+    {
+      "inputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "hash",
+          "type": "bytes32"
+        }
+      ],
+      "name": "addDocHash",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "hash",
+          "type": "bytes32"
+        }
+      ],
+      "name": "findDocHash",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"hash\",\"type\":\"bytes32\"}],\"name\":\"addDocHash\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"hash\",\"type\":\"bytes32\"}],\"name\":\"findDocHash\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/D/EthereumDocumentCertification/contracts/Notary.sol\":\"Notary\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/D/EthereumDocumentCertification/contracts/Notary.sol\":{\"keccak256\":\"0x0fb212b98e4ec603c4af88c993b4b86b6c9656d4cd146ceaa92e7ddc65807a8c\",\"urls\":[\"bzz-raw://a6abf7bf64e7eba169672ecf4ac7909e15e703be2374f3d584eb513168cae868\",\"dweb:/ipfs/QmcouzEpAkvrvQNiKrbjDKPR8TCq3p4sw5yazsvihzoacb\"]}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b50610186806100206000396000f3fe608060405234801561001057600080fd5b50600436106100365760003560e01c8063133a48f31461003b5780634cf00d3f14610069575b600080fd5b6100676004803603602081101561005157600080fd5b81019080803590602001909291905050506100b2565b005b6100956004803603602081101561007f57600080fd5b81019080803590602001909291905050506100ff565b604051808381526020018281526020019250505060405180910390f35b6100ba610137565b60405180604001604052804281526020014381525090508060008084815260200190815260200160002060008201518160000155602082015181600101559050505050565b600080600080848152602001908152602001600020600001546000808581526020019081526020016000206001015491509150915091565b60405180604001604052806000815260200160008152509056fea265627a7a72315820c1e0ec9484d5316ac14ca874209506d5cfdc4e3dcdf1f76b850d6635343ab87564736f6c63430005100032",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100365760003560e01c8063133a48f31461003b5780634cf00d3f14610069575b600080fd5b6100676004803603602081101561005157600080fd5b81019080803590602001909291905050506100b2565b005b6100956004803603602081101561007f57600080fd5b81019080803590602001909291905050506100ff565b604051808381526020018281526020019250505060405180910390f35b6100ba610137565b60405180604001604052804281526020014381525090508060008084815260200190815260200160002060008201518160000155602082015181600101559050505050565b600080600080848152602001908152602001600020600001546000808581526020019081526020016000206001015491509150915091565b60405180604001604052806000815260200160008152509056fea265627a7a72315820c1e0ec9484d5316ac14ca874209506d5cfdc4e3dcdf1f76b850d6635343ab87564736f6c63430005100032",
+  "sourceMap": "35:449:1:-;;;162:27;8:9:-1;5:2;;;30:1;27;20:12;5:2;162:27:1;35:449;;;;;;",
+  "deployedSourceMap": "35:449:1:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;35:449:1;;;;;;;;;;;;;;;;;;;;;;;;194:138;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;194:138:1;;;;;;;;;;;;;;;;;:::i;:::-;;337:142;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;337:142:1;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;194:138;242:23;;:::i;:::-;268:25;;;;;;;;275:3;268:25;;;;280:12;268:25;;;242:51;;317:9;299;:15;309:4;299:15;;;;;;;;;;;:27;;;;;;;;;;;;;;;;;;;194:138;;:::o;337:142::-;393:4;399;419:9;:15;429:4;419:15;;;;;;;;;;;:24;;;445:9;:15;455:4;445:15;;;;;;;;;;;:27;;;411:62;;;;337:142;;;:::o;35:449::-;;;;;;;;;;;;;;;;;;;:::o",
+  "source": "pragma solidity >= 0.5.0 < 0.7.0;\n\ncontract Notary {\n\tstruct Record {\n\t\tuint mineTime;\n\t\tuint blockNumber;\n\t}\n\n\tmapping(bytes32 => Record) private docHashes;\n\n  \tconstructor() public {\n  \t}\n\n  \tfunction addDocHash (bytes32 hash) public {\n  \t\tRecord memory newRecord = Record(now, block.number);\n  \t\tdocHashes[hash] = newRecord;\n  \t}\n\n  \tfunction findDocHash (bytes32 hash) public view returns(uint, uint) {\n  \t\treturn (docHashes[hash].mineTime, docHashes[hash].blockNumber);\n  \t}\n\n\n\n}\n",
+  "sourcePath": "D:/EthereumDocumentCertification/contracts/Notary.sol",
+  "ast": {
+    "absolutePath": "/D/EthereumDocumentCertification/contracts/Notary.sol",
+    "exportedSymbols": {
+      "Notary": [
+        92
+      ]
+    },
+    "id": 93,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 38,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.5",
+          ".0",
+          "<",
+          "0.7",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:33:1"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 92,
+        "linearizedBaseContracts": [
+          92
+        ],
+        "name": "Notary",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "canonicalName": "Notary.Record",
+            "id": 43,
+            "members": [
+              {
+                "constant": false,
+                "id": 40,
+                "name": "mineTime",
+                "nodeType": "VariableDeclaration",
+                "scope": 43,
+                "src": "72:13:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 39,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "72:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 42,
+                "name": "blockNumber",
+                "nodeType": "VariableDeclaration",
+                "scope": 43,
+                "src": "89:16:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 41,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "89:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "Record",
+            "nodeType": "StructDefinition",
+            "scope": 92,
+            "src": "54:55:1",
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 47,
+            "name": "docHashes",
+            "nodeType": "VariableDeclaration",
+            "scope": 92,
+            "src": "112:44:1",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_Record_$43_storage_$",
+              "typeString": "mapping(bytes32 => struct Notary.Record)"
+            },
+            "typeName": {
+              "id": 46,
+              "keyType": {
+                "id": 44,
+                "name": "bytes32",
+                "nodeType": "ElementaryTypeName",
+                "src": "120:7:1",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bytes32",
+                  "typeString": "bytes32"
+                }
+              },
+              "nodeType": "Mapping",
+              "src": "112:26:1",
+              "typeDescriptions": {
+                "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_Record_$43_storage_$",
+                "typeString": "mapping(bytes32 => struct Notary.Record)"
+              },
+              "valueType": {
+                "contractScope": null,
+                "id": 45,
+                "name": "Record",
+                "nodeType": "UserDefinedTypeName",
+                "referencedDeclaration": 43,
+                "src": "131:6:1",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_struct$_Record_$43_storage_ptr",
+                  "typeString": "struct Notary.Record"
+                }
+              }
+            },
+            "value": null,
+            "visibility": "private"
+          },
+          {
+            "body": {
+              "id": 50,
+              "nodeType": "Block",
+              "src": "183:6:1",
+              "statements": []
+            },
+            "documentation": null,
+            "id": 51,
+            "implemented": true,
+            "kind": "constructor",
+            "modifiers": [],
+            "name": "",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 48,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "173:2:1"
+            },
+            "returnParameters": {
+              "id": 49,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "183:0:1"
+            },
+            "scope": 92,
+            "src": "162:27:1",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 70,
+              "nodeType": "Block",
+              "src": "236:96:1",
+              "statements": [
+                {
+                  "assignments": [
+                    57
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 57,
+                      "name": "newRecord",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 70,
+                      "src": "242:23:1",
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_Record_$43_memory_ptr",
+                        "typeString": "struct Notary.Record"
+                      },
+                      "typeName": {
+                        "contractScope": null,
+                        "id": 56,
+                        "name": "Record",
+                        "nodeType": "UserDefinedTypeName",
+                        "referencedDeclaration": 43,
+                        "src": "242:6:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Record_$43_storage_ptr",
+                          "typeString": "struct Notary.Record"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 63,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 59,
+                        "name": "now",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 109,
+                        "src": "275:3:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 60,
+                          "name": "block",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 97,
+                          "src": "280:5:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_magic_block",
+                            "typeString": "block"
+                          }
+                        },
+                        "id": 61,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "number",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": null,
+                        "src": "280:12:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      ],
+                      "id": 58,
+                      "name": "Record",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 43,
+                      "src": "268:6:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_type$_t_struct$_Record_$43_storage_ptr_$",
+                        "typeString": "type(struct Notary.Record storage pointer)"
+                      }
+                    },
+                    "id": 62,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "structConstructorCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "268:25:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_Record_$43_memory",
+                      "typeString": "struct Notary.Record memory"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "242:51:1"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 68,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "baseExpression": {
+                        "argumentTypes": null,
+                        "id": 64,
+                        "name": "docHashes",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 47,
+                        "src": "299:9:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_Record_$43_storage_$",
+                          "typeString": "mapping(bytes32 => struct Notary.Record storage ref)"
+                        }
+                      },
+                      "id": 66,
+                      "indexExpression": {
+                        "argumentTypes": null,
+                        "id": 65,
+                        "name": "hash",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 53,
+                        "src": "309:4:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        }
+                      },
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": true,
+                      "nodeType": "IndexAccess",
+                      "src": "299:15:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_Record_$43_storage",
+                        "typeString": "struct Notary.Record storage ref"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "id": 67,
+                      "name": "newRecord",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 57,
+                      "src": "317:9:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_Record_$43_memory_ptr",
+                        "typeString": "struct Notary.Record memory"
+                      }
+                    },
+                    "src": "299:27:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_Record_$43_storage",
+                      "typeString": "struct Notary.Record storage ref"
+                    }
+                  },
+                  "id": 69,
+                  "nodeType": "ExpressionStatement",
+                  "src": "299:27:1"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 71,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "addDocHash",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 54,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 53,
+                  "name": "hash",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 71,
+                  "src": "215:12:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 52,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "215:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "214:14:1"
+            },
+            "returnParameters": {
+              "id": 55,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "236:0:1"
+            },
+            "scope": 92,
+            "src": "194:138:1",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 90,
+              "nodeType": "Block",
+              "src": "405:74:1",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "components": [
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "id": 80,
+                            "name": "docHashes",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 47,
+                            "src": "419:9:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_Record_$43_storage_$",
+                              "typeString": "mapping(bytes32 => struct Notary.Record storage ref)"
+                            }
+                          },
+                          "id": 82,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "id": 81,
+                            "name": "hash",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 73,
+                            "src": "429:4:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_bytes32",
+                              "typeString": "bytes32"
+                            }
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "419:15:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_Record_$43_storage",
+                            "typeString": "struct Notary.Record storage ref"
+                          }
+                        },
+                        "id": 83,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "mineTime",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 40,
+                        "src": "419:24:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "id": 84,
+                            "name": "docHashes",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 47,
+                            "src": "445:9:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_Record_$43_storage_$",
+                              "typeString": "mapping(bytes32 => struct Notary.Record storage ref)"
+                            }
+                          },
+                          "id": 86,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "id": 85,
+                            "name": "hash",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 73,
+                            "src": "455:4:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_bytes32",
+                              "typeString": "bytes32"
+                            }
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "445:15:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_Record_$43_storage",
+                            "typeString": "struct Notary.Record storage ref"
+                          }
+                        },
+                        "id": 87,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "blockNumber",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 42,
+                        "src": "445:27:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      }
+                    ],
+                    "id": 88,
+                    "isConstant": false,
+                    "isInlineArray": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "nodeType": "TupleExpression",
+                    "src": "418:55:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$_t_uint256_$_t_uint256_$",
+                      "typeString": "tuple(uint256,uint256)"
+                    }
+                  },
+                  "functionReturnParameters": 79,
+                  "id": 89,
+                  "nodeType": "Return",
+                  "src": "411:62:1"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 91,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "findDocHash",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 74,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 73,
+                  "name": "hash",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 91,
+                  "src": "359:12:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 72,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "359:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "358:14:1"
+            },
+            "returnParameters": {
+              "id": 79,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 76,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 91,
+                  "src": "393:4:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 75,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "393:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 78,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 91,
+                  "src": "399:4:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 77,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "399:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "392:12:1"
+            },
+            "scope": 92,
+            "src": "337:142:1",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 93,
+        "src": "35:449:1"
+      }
+    ],
+    "src": "0:485:1"
+  },
+  "legacyAST": {
+    "absolutePath": "/D/EthereumDocumentCertification/contracts/Notary.sol",
+    "exportedSymbols": {
+      "Notary": [
+        92
+      ]
+    },
+    "id": 93,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 38,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.5",
+          ".0",
+          "<",
+          "0.7",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:33:1"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 92,
+        "linearizedBaseContracts": [
+          92
+        ],
+        "name": "Notary",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "canonicalName": "Notary.Record",
+            "id": 43,
+            "members": [
+              {
+                "constant": false,
+                "id": 40,
+                "name": "mineTime",
+                "nodeType": "VariableDeclaration",
+                "scope": 43,
+                "src": "72:13:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 39,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "72:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 42,
+                "name": "blockNumber",
+                "nodeType": "VariableDeclaration",
+                "scope": 43,
+                "src": "89:16:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 41,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "89:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "Record",
+            "nodeType": "StructDefinition",
+            "scope": 92,
+            "src": "54:55:1",
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 47,
+            "name": "docHashes",
+            "nodeType": "VariableDeclaration",
+            "scope": 92,
+            "src": "112:44:1",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_Record_$43_storage_$",
+              "typeString": "mapping(bytes32 => struct Notary.Record)"
+            },
+            "typeName": {
+              "id": 46,
+              "keyType": {
+                "id": 44,
+                "name": "bytes32",
+                "nodeType": "ElementaryTypeName",
+                "src": "120:7:1",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bytes32",
+                  "typeString": "bytes32"
+                }
+              },
+              "nodeType": "Mapping",
+              "src": "112:26:1",
+              "typeDescriptions": {
+                "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_Record_$43_storage_$",
+                "typeString": "mapping(bytes32 => struct Notary.Record)"
+              },
+              "valueType": {
+                "contractScope": null,
+                "id": 45,
+                "name": "Record",
+                "nodeType": "UserDefinedTypeName",
+                "referencedDeclaration": 43,
+                "src": "131:6:1",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_struct$_Record_$43_storage_ptr",
+                  "typeString": "struct Notary.Record"
+                }
+              }
+            },
+            "value": null,
+            "visibility": "private"
+          },
+          {
+            "body": {
+              "id": 50,
+              "nodeType": "Block",
+              "src": "183:6:1",
+              "statements": []
+            },
+            "documentation": null,
+            "id": 51,
+            "implemented": true,
+            "kind": "constructor",
+            "modifiers": [],
+            "name": "",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 48,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "173:2:1"
+            },
+            "returnParameters": {
+              "id": 49,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "183:0:1"
+            },
+            "scope": 92,
+            "src": "162:27:1",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 70,
+              "nodeType": "Block",
+              "src": "236:96:1",
+              "statements": [
+                {
+                  "assignments": [
+                    57
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 57,
+                      "name": "newRecord",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 70,
+                      "src": "242:23:1",
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_Record_$43_memory_ptr",
+                        "typeString": "struct Notary.Record"
+                      },
+                      "typeName": {
+                        "contractScope": null,
+                        "id": 56,
+                        "name": "Record",
+                        "nodeType": "UserDefinedTypeName",
+                        "referencedDeclaration": 43,
+                        "src": "242:6:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Record_$43_storage_ptr",
+                          "typeString": "struct Notary.Record"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 63,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 59,
+                        "name": "now",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 109,
+                        "src": "275:3:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 60,
+                          "name": "block",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 97,
+                          "src": "280:5:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_magic_block",
+                            "typeString": "block"
+                          }
+                        },
+                        "id": 61,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "number",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": null,
+                        "src": "280:12:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      ],
+                      "id": 58,
+                      "name": "Record",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 43,
+                      "src": "268:6:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_type$_t_struct$_Record_$43_storage_ptr_$",
+                        "typeString": "type(struct Notary.Record storage pointer)"
+                      }
+                    },
+                    "id": 62,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "structConstructorCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "268:25:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_Record_$43_memory",
+                      "typeString": "struct Notary.Record memory"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "242:51:1"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 68,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "baseExpression": {
+                        "argumentTypes": null,
+                        "id": 64,
+                        "name": "docHashes",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 47,
+                        "src": "299:9:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_Record_$43_storage_$",
+                          "typeString": "mapping(bytes32 => struct Notary.Record storage ref)"
+                        }
+                      },
+                      "id": 66,
+                      "indexExpression": {
+                        "argumentTypes": null,
+                        "id": 65,
+                        "name": "hash",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 53,
+                        "src": "309:4:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        }
+                      },
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": true,
+                      "nodeType": "IndexAccess",
+                      "src": "299:15:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_Record_$43_storage",
+                        "typeString": "struct Notary.Record storage ref"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "id": 67,
+                      "name": "newRecord",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 57,
+                      "src": "317:9:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_Record_$43_memory_ptr",
+                        "typeString": "struct Notary.Record memory"
+                      }
+                    },
+                    "src": "299:27:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_Record_$43_storage",
+                      "typeString": "struct Notary.Record storage ref"
+                    }
+                  },
+                  "id": 69,
+                  "nodeType": "ExpressionStatement",
+                  "src": "299:27:1"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 71,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "addDocHash",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 54,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 53,
+                  "name": "hash",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 71,
+                  "src": "215:12:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 52,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "215:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "214:14:1"
+            },
+            "returnParameters": {
+              "id": 55,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "236:0:1"
+            },
+            "scope": 92,
+            "src": "194:138:1",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 90,
+              "nodeType": "Block",
+              "src": "405:74:1",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "components": [
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "id": 80,
+                            "name": "docHashes",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 47,
+                            "src": "419:9:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_Record_$43_storage_$",
+                              "typeString": "mapping(bytes32 => struct Notary.Record storage ref)"
+                            }
+                          },
+                          "id": 82,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "id": 81,
+                            "name": "hash",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 73,
+                            "src": "429:4:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_bytes32",
+                              "typeString": "bytes32"
+                            }
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "419:15:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_Record_$43_storage",
+                            "typeString": "struct Notary.Record storage ref"
+                          }
+                        },
+                        "id": 83,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "mineTime",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 40,
+                        "src": "419:24:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "id": 84,
+                            "name": "docHashes",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 47,
+                            "src": "445:9:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_Record_$43_storage_$",
+                              "typeString": "mapping(bytes32 => struct Notary.Record storage ref)"
+                            }
+                          },
+                          "id": 86,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "id": 85,
+                            "name": "hash",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 73,
+                            "src": "455:4:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_bytes32",
+                              "typeString": "bytes32"
+                            }
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "445:15:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_Record_$43_storage",
+                            "typeString": "struct Notary.Record storage ref"
+                          }
+                        },
+                        "id": 87,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "blockNumber",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 42,
+                        "src": "445:27:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      }
+                    ],
+                    "id": 88,
+                    "isConstant": false,
+                    "isInlineArray": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "nodeType": "TupleExpression",
+                    "src": "418:55:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$_t_uint256_$_t_uint256_$",
+                      "typeString": "tuple(uint256,uint256)"
+                    }
+                  },
+                  "functionReturnParameters": 79,
+                  "id": 89,
+                  "nodeType": "Return",
+                  "src": "411:62:1"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 91,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "findDocHash",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 74,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 73,
+                  "name": "hash",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 91,
+                  "src": "359:12:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 72,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "359:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "358:14:1"
+            },
+            "returnParameters": {
+              "id": 79,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 76,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 91,
+                  "src": "393:4:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 75,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "393:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 78,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 91,
+                  "src": "399:4:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 77,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "399:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "392:12:1"
+            },
+            "scope": 92,
+            "src": "337:142:1",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 93,
+        "src": "35:449:1"
+      }
+    ],
+    "src": "0:485:1"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.16+commit.9c3226ce.Emscripten.clang"
+  },
+  "networks": {
+    "5777": {
+      "events": {},
+      "links": {},
+      "address": "0x459A88B16CA9a386fcaFCCd3A1D7710b4d1D1F0D",
+      "transactionHash": "0x30d103c3ff99aa36ded732cadb609ee3f97c44d9c7c0abad5363c8f85ac5f0b3"
+    }
+  },
+  "schemaVersion": "3.0.22",
+  "updatedAt": "2020-01-27T06:22:42.402Z",
+  "networkType": "ethereum",
+  "devdoc": {
+    "methods": {}
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}
